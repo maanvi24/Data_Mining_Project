@@ -89,6 +89,9 @@ def get_articles():
                         "url": article_url,
                         "summary": article.get('summary', ''),
                         "text": article_text
+                        # Add model Prediction
+                        # Add Actual
+                        # Add Correct
                     }
 
                     # Append into stock data
