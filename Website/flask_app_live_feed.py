@@ -1,12 +1,14 @@
-# Import the following
 from flask import Flask, request, jsonify
 from datetime import datetime, timedelta
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
+from flask import Flask, jsonify
+from flask_cors import CORS  # Import CORS
+from flask_cors import cross_origin
 
-# Define app
 app = Flask(__name__)
+CORS(app)
 
 # Get today's date and format it
 today = datetime.now().strftime("%Y-%m-%d")
@@ -20,6 +22,7 @@ intervals = {'1d': today,
 
 # Create get_articles function
 @app.route('/get_articles', methods=['POST'])
+@cross_origin(origins="http://localhost:3000")
 def get_articles():
     try:
 
@@ -89,9 +92,6 @@ def get_articles():
                         "url": article_url,
                         "summary": article.get('summary', ''),
                         "text": article_text
-                        # Add model Prediction
-                        # Add Actual
-                        # Add Correct
                     }
 
                     # Append into stock data
