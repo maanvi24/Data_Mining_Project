@@ -5,6 +5,7 @@ from summarizer import Summarizer
 # Create app
 app = Flask(__name__)
 
+
 # Create generate_summary function
 @app.route('/generate_summary', methods=['POST'])
 def generate_summary():

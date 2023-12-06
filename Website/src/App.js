@@ -2,10 +2,11 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import NavBar from './Pages/Navbar';
-import Home from './ArticleForm';
+import Home from './Pages/ArticleForm';
 import About from './Pages/About';
 import LiveFeed from './Pages/LiveFeed';
 import Summary from './Pages/Summary';
+
 
 function App() {
   return (
