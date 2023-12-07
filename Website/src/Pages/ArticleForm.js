@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -8,6 +9,7 @@ const ArticleForm = ({ onPredictionUpdate }) => {
   const [relevanceScores, setRelevanceScores] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [likelihoodStatement, setLikelihoodStatement] = useState(null);
 
   const selectedTopics = [
     'Blockchain',
@@ -24,15 +26,6 @@ const ArticleForm = ({ onPredictionUpdate }) => {
     'Technology',
   ];
 
-  const getPredictionStatement = () => {
-    if (prediction === 'up') {
-      return 'There is a positive outlook for this stock.';
-    } else if (prediction === 'down') {
-      return 'There is a negative outlook for this stock';
-    }
-    return '';
-  };
-
   const handlePrediction = async () => {
     try {
       setLoading(true);
@@ -43,6 +36,8 @@ const ArticleForm = ({ onPredictionUpdate }) => {
       });
 
       const newPrediction = response.data.prediction;
+      const likelihood = response.data.likelihood;
+
       setPrediction(newPrediction);
       onPredictionUpdate && onPredictionUpdate(newPrediction);
 
@@ -59,16 +54,22 @@ const ArticleForm = ({ onPredictionUpdate }) => {
           })
         )
       );
-  
+
       const newSentiment = sentimentResponse.data.sentiment;
       setSentiment(newSentiment);
-  
+
       const newRelevanceScores = {};
       relevanceResponses.forEach((response, index) => {
         const topic = selectedTopics[index];
-        newRelevanceScores[topic] = response.data.prediction; // Check if the structure matches the expected data
+        newRelevanceScores[topic] = response.data.prediction;
       });
       setRelevanceScores(newRelevanceScores);
+
+      // Display likelihood information
+      const likelihoodStatement = `There is a ${likelihood.toFixed(2)}% likelihood this stock will go ${
+        newPrediction === 'up' ? 'up' : 'down'
+      } tomorrow.`;
+      setLikelihoodStatement(likelihoodStatement);
     } catch (error) {
       console.error('Error:', error);
       setError('An error occurred while making the prediction.');
@@ -94,7 +95,7 @@ const ArticleForm = ({ onPredictionUpdate }) => {
         {prediction && (
           <div>
             <p style={styles.predictionResult}>Prediction: {prediction}</p>
-            <p style={styles.predictionStatement}>{getPredictionStatement()}</p>
+            {likelihoodStatement && <p style={styles.predictionStatement}>{likelihoodStatement}</p>}
           </div>
         )}
         {sentiment && <p style={styles.sentimentScore}>Sentiment Score: {sentiment}</p>}
@@ -110,6 +111,8 @@ const ArticleForm = ({ onPredictionUpdate }) => {
     </div>
   );
 };
+
+
 
 
 
@@ -181,3 +184,4 @@ const styles = {
 };
 
 export default ArticleForm;
+
