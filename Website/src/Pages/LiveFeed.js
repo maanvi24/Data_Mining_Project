@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
 import axios from 'axios';
+document.body.style.backgroundColor = '#033673';
 const styles = {
   liveFeedContainer: {
     margin: '20px',
@@ -12,11 +13,14 @@ const styles = {
     marginBottom: '20px',
   },
   label: {
+    color: 'white',
     marginBottom: '10px',
   },
   input: {
     marginBottom: '10px',
     padding: '8px',
+    border: '1px solid #ccc',
+    borderRadius: '4px',
   },
   select: {
     marginBottom: '10px',
@@ -27,6 +31,10 @@ const styles = {
     padding: '8px',
     cursor: 'pointer',
     transition: 'background-color 0.3s',
+    backgroundColor: '#4caf50',
+    color: 'white',
+    borderRadius: '10px',
+
   },
   link: {
     color: '#007BFF',
@@ -161,3 +169,4 @@ const LiveFeed = () => {
 };
 
 export default LiveFeed;
+
